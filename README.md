@@ -1,237 +1,262 @@
-## Rentify Frontend
+# Rentify Frontend — Rental Platform
 
-Rentify is a modern web platform for discovering, listing, and managing real estate rentals in Ukraine.  
-This repository contains the **React + TypeScript frontend** that communicates with the Spring Boot backend (`rentify-backend`).
+[![React 19](https://img.shields.io/badge/React-19-61dafb.svg?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-7.x-646CFF.svg?logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38b2ac.svg?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![TanStack Query](https://img.shields.io/badge/TanStack_Query-v5-FF4154.svg?logo=reactquery&logoColor=white)](https://tanstack.com/query)
+[![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900.svg?logo=leaflet&logoColor=white)](https://leafletjs.com/)
+[![React Router](https://img.shields.io/badge/React_Router-v6-CA4245.svg?logo=reactrouter&logoColor=white)](https://reactrouter.com/)
+[![Zustand](https://img.shields.io/badge/Zustand-v5-443E38.svg?logo=zustand&logoColor=white)](https://zustand.docs.pmnd.rs/)
+[![React Hook Form](https://img.shields.io/badge/React_Hook_Form-v7-EC5990.svg?logo=reacthookform&logoColor=white)](https://react-hook-form.com/)
+[![Zod](https://img.shields.io/badge/Zod-v4-3E67B1.svg?logo=zod&logoColor=white)](https://zod.dev/)
+[![Axios](https://img.shields.io/badge/Axios-v1.x-5A29E4.svg?logo=axios&logoColor=white)](https://axios-http.com/)
+[![i18next](https://img.shields.io/badge/i18next-v26-26A69A.svg?logo=i18next&logoColor=white)](https://www.i18next.com/)
+[![Google OAuth](https://img.shields.io/badge/Google_OAuth-2.0-4285F4.svg?logo=google&logoColor=white)](https://developers.google.com/identity)
+[![Vitest](https://img.shields.io/badge/Vitest-v4-6E9F18.svg?logo=vitest&logoColor=white)](https://vitest.dev/)
+
+[![Docker](https://img.shields.io/badge/Docker-Multi--Stage-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Nginx](https://img.shields.io/badge/Nginx-Reverse_Proxy-009639.svg?logo=nginx&logoColor=white)](https://nginx.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
 
 ## Overview
 
-Rentify delivers a complete rental experience for both guests and authenticated users:
+**Rentify** is a modern, high-performance real estate rental platform in Ukraine designed for discovering, booking, listing, and managing residential and commercial properties. It serves both guests seeking temporary housing or apartments and property owners looking to monetize listings with integrated booking management, real-time communication, promotional boost packages, and digital wallet transactions.
 
-- Guests can search listings, explore the map, view property details, and open public profiles.
-- Signed-in users can create and manage their listings, bookings, wallet, promotions, and personal profile.
-- The app is built with **production use** in mind: cookie-based authentication, CSRF-compatible backend, optimized UI, and a clear code structure.
+This repository contains the **React 19 + TypeScript Single Page Application (SPA)** that communicates with the Spring Boot backend (`rentify-backend`). The application is engineered with a modular, layer-separated architecture, responsive design with dark mode support, custom Leaflet map integration with Ukraine boundary masking, robust dual-strategy authentication (HTTP-only cookie / Bearer token), and zero-CLS layout states.
 
 ---
 
-## Technologies
+## Tech Stack
 
-The frontend is built with a robust and maintainable stack:
+### Core Framework & Build Tooling
+- **React 19.2**: Concurrent React features, modern hook composition, and optimized component lifecycles
+- **TypeScript 5.9**: Strict type safety across all domain models, API payloads, form schemas, and event contracts
+- **Vite 7.3**: Lightning-fast ESM dev server with hot module replacement (HMR) and optimized rollup production bundling
 
-- **Core:** React, TypeScript, Vite
-- **Data & State:**
-  - `@tanstack/react-query` for data fetching, caching, and background updates
-  - React Context for theme (`ThemeContext`) and authentication (`AuthContext`)
-- **Routing:** React Router
-- **HTTP Client:** Axios (configured in `src/services/api.ts` with cookie auth + CSRF headers)
-- **Styling & UI:**
-  - Utility-first CSS classes (Tailwind-like approach)
-  - Responsive, mobile-first layout with modern components (navbar, hero blocks, cards, sidebars)
-- **Maps & Search:**
-  - Map with clustered pins for property search
-  - Location-based search, filters, sorting
-- **Auth & Security:**
-  - Two auth strategies supported: bearer token or HTTP-only cookie
-  - Integration with Spring Security + JWT on the backend
-  - CSRF-compatible requests in cookie strategy (header `X-CSRF-Token`)
-- **Developer Experience:**
-  - Vite dev server with hot module replacement
-  - ESLint + strict TypeScript configuration
-  - Clearly separated `services`, `hooks`, `components`, and `pages`
+### State Management & Data Fetching
+- **TanStack Query v5 (React Query)**: Declarative server-state management, automatic query caching, background revalidation, and mutation invalidations
+- **Zustand v5**: Lightweight synchronous client-state management for modal controls, UI filters, and transient application states
+- **React Context API**: Dedicated providers for authentication session state (`AuthContext`) and theme switching (`ThemeContext`)
+
+### Maps, Geolocation & Visualization
+- **Leaflet 1.9 & React Leaflet 5.0**: Interactive map engine with smooth panning, zooming, and dynamic viewport bounds
+- **Custom Ukraine GeoJSON Mask Layer**: Regional polygon clipping masking neighboring territories to focus explicitly on Ukrainian oblasts and cities
+- **Clustered Map Markers**: High-performance pin clustering with custom SVG icon markers and instant property popovers
+
+### UI, Styling & Design System
+- **Tailwind CSS v4**: High-performance modern utility styling with CSS variables for dynamic Dark / Light theme tokens
+- **Lucide React**: Clean, consistent icon set across all navigation, cards, and modal components
+- **React Hot Toast**: Unobtrusive notification system for feedback on async mutations, bookings, and auth updates
+
+### Forms & Validation
+- **React Hook Form v7**: Performant, uncontrolled form validation minimizing unnecessary re-renders
+- **Zod v4 & @hookform/resolvers**: Schema-based runtime validation with strict TypeScript inference for auth, listing wizards, and profile editing
+
+### HTTP Client & Network Layer
+- **Axios 1.13**: Configured HTTP client featuring automatic deep snake_case-to-camelCase response transformation
+- **CSRF Protection**: Automatic extraction and injection of `X-CSRF-Token` headers for mutating requests in cookie-based auth mode
+- **Network & Session Interceptors**: Global event dispatching for session expiration (`auth:session-expired`) and offline detection (`network:offline`)
+
+### Internationalization & SEO
+- **i18next & react-i18next**: Pluggable internationalization architecture ready for multi-language localization
+- **Dynamic SEO & Metadata Engine**: Custom OpenGraph tags, JSON-LD Schema.org structured breadcrumbs, and canonical link injection in `AppRouter`
+
+### Testing & Code Quality
+- **Vitest 4.1**: Next-generation test runner running 68+ unit and integration tests across 28 test suites
+- **React Testing Library & Jest DOM**: User-centric component behavior and DOM mutation assertions
+- **ESLint 9**: Strict linting rules with TypeScript and React Hooks validation plugins
+
+### Production & Containerization
+- **Multi-Stage Dockerfile**: Two-stage build (Node 22 Alpine builder into lightweight Nginx 1.27 Alpine static server)
+- **Nginx Reverse Proxy**: Production SPA routing (`try_files $uri /index.html`) with `/api/` reverse proxy pass and enterprise security headers (CSP, HSTS, X-Frame-Options)
 
 ---
 
 ## Core Features
 
-### Search & Map
-
-- Property search with filters (city, rental type, status, etc.).
-- Map view with pin clustering, previews, and quick navigation to property details.
-- Separate pages for standard search and map-based search.
-
-### Property Management
-
-- Create, edit, and publish property listings.
-- Rich property details: photos, rules, amenities, pricing, and availability calendar.
-- Support for blocking specific dates, updating status, and promoting listings.
-
-### Booking & Payments
-
-- Request and manage bookings as a tenant.
-- Host and tenant booking views (my bookings vs. bookings for my listings).
-- Integration with backend payment logic: wallet transactions and synthetic booking transactions.
-
-### Profile & Wallet
-
-- Personal profile with name, phone, avatar, and account management.
-- Wallet view with balance, transaction history, and top-up options.
-- Subscription and promotion packages for boosting listings.
-
-### Auth & Session
-
-- Email/password login and registration, plus Google OAuth.
-- Session handling powered by `/users/profile` on the backend and a lightweight `UserSessionDto` on the frontend.
-- Correct logout flow:
-  - `POST /auth/logout` on the backend
-  - clearing cookie/token
-  - immediate `AuthContext` state update without page reload.
-
-### Chat & Communication
-
-- Built-in chat widget for host–tenant communication.
-- Conversation list per property, message history, and background polling.
+- **Interactive Map Search & Geo-Clustering**: Leaflet-powered map with custom Ukraine borders/mask, marker clustering, instant coordinate geocoding, synchronized viewport queries, and map card previews.
+- **Advanced Search & Filtering Engine**: Instant keyword search, city selection, rental type (apartment, house, room, commercial), price range slider, room count, amenities filter, date availability, and multi-criteria sorting.
+- **Comprehensive Property Management**: 6-step listing wizard (Basics, Location with interactive map picker, Property Details, Amenities, Pricing/Rules, Multi-image uploader with reordering & previews), draft saving, editing, and publishing.
+- **Booking & Synthetic Payments Flow**: Tenant booking requests, date range picker with blocked dates validation, booking status workflows (Pending, Confirmed, Rejected, Cancelled), host booking inbox, and integrated wallet/synthetic payment processing.
+- **Financial Wallet & Listing Promotions**: In-app digital wallet with balance display, transaction history ledger, synthetic top-up modal, and listing boost/promotion packages with active tier indicators.
+- **Real-Time Host-Tenant In-App Chat**: Conversation threads tied to properties, instant messaging pane, unread message indicators, auto-retry on expired threads, and background polling synchronization.
+- **User Profile & Public Host Showcase**: User account settings (avatar upload/deletion, profile info, password security update), host public profile page displaying all active listings, host rating, member since status, and contact options.
+- **Dual Authentication & Security**: Email/password authentication, Google OAuth 2.0 integration, dual auth strategy (HTTP-Only Secure Cookie with CSRF protection or Bearer JWT), automatic session invalidation on 401, and route protection guards.
+- **SEO & Layout Stability**: Dynamic OpenGraph tags, JSON-LD Schema.org structured breadcrumbs, canonical links, and zero-CLS skeleton screens tailored for auth, map, and content views.
 
 ---
 
 ## Screenshots
 
-### Home page
+| Home Page | Search Listings |
+| :---: | :---: |
+| <img src="src/assets/images/home.jpg" alt="Home Page" width="100%" /><br/>*Landing page featuring hero search, popular Ukrainian cities & quick navigation.* | <img src="src/assets/images/search.jpg" alt="Search Listings" width="100%" /><br/>*Advanced search view with multi-parameter filter sidebar & sort controls.* |
+| **Map Search** | **Property Details** |
+| <img src="src/assets/images/map.jpg" alt="Map Search" width="100%" /><br/>*Interactive Leaflet map with Ukraine boundaries mask & marker clustering.* | <img src="src/assets/images/property_details.jpg" alt="Property Details" width="100%" /><br/>*Complete listing view with photo carousel, amenities & booking date calculator.* |
+| **User Profile** | **Profile (Dark Mode)** |
+| <img src="src/assets/images/profile.jpg" alt="User Profile" width="100%" /><br/>*User dashboard with tabs for properties, bookings, wallet & promotions.* | <img src="src/assets/images/profile_dark_mode.jpg" alt="Profile Dark Mode" width="100%" /><br/>*Dark theme support with high contrast across all dashboard interfaces.* |
+| **Create a Listing Wizard** | |
+| <img src="src/assets/images/create_property.jpg" alt="Create a Listing" width="100%" /><br/>*6-step guided wizard for creating and publishing properties with map coordinate selection.* | |
 
-![Home page](src/assets/images/home.jpg)
+---
 
-_The landing page with key entry points and quick navigation._
+## System Architecture & Patterns
 
-### Search listings
+This application is built with a decoupled Single Page Application (SPA) architecture designed for reliability, speed, and strict separation of concerns.
 
-![Search listings](src/assets/images/search.jpg)
+### Frontend Architecture
+- **Layer-Based & Modular Structure**: Divided cleanly into pages (`src/pages`), reusable component primitives (`src/components`), domain API services (`src/services`), custom React Query hooks (`src/hooks`), and global contexts (`src/contexts`).
+- **Server State vs. Client State Isolation**: Server data is exclusively cached, synchronized, and invalidated through TanStack Query v5; client UI state (theme mode, modal visibility, filter controls) is encapsulated in Zustand stores and React Context.
+- **Dual Authentication Strategy (Cookie & Bearer)**: Flexible support for both stateless Bearer JWT authentication and HTTP-Only cookies with CSRF validation (`X-CSRF-Token` header) for enhanced security.
+- **Automated Deep Key Transformation**: Axios response interceptors automatically convert incoming `snake_case` JSON fields into idiomatic `camelCase` TypeScript objects, eliminating manual DTO mapping across the codebase.
+- **Event-Driven Decoupling**: Global window events (`auth:session-expired`, `network:offline`) allow network interceptors to notify UI layers cleanly without creating circular dependencies.
+- **Zero-CLS Skeleton Screens**: Purpose-built skeleton loaders tailored for auth forms, content grids, and fullscreen map views to guarantee zero Cumulative Layout Shift during data fetching.
+- **Leaflet Ukraine Polygon Masking**: GeoJSON boundary layer highlighting Ukrainian territory while providing custom polygon clipping over surrounding areas for clear geographical context.
 
-_Search with filters and results list to quickly find the right rental._
+### Code Quality & Security
+- **Strict Content Security Policy (CSP)**: Vite preview and Nginx configurations enforce strict CSP rules, frame-ancestors restrictions, and strict Referrer policies.
+- **Automated Dependency Auditing**: Pre-configured `npm run audit:deps` and `npm run security:check` scripts verifying vulnerability-free production dependencies.
+- **Automated Vitest Test Suite**: 28 test suites validating auth forms, chat message panes, map sync, profile cards, wizard steps, and search filters.
 
-### Map search
+---
 
-![Map search](src/assets/images/map.jpg)
+## Testing & Code Quality
 
-_Map view with clustered pins for location-first browsing._
+The frontend is continuously tested using **Vitest** and **React Testing Library**:
 
-### Property details
+- **28 Test Suites & 68+ Passing Tests**: Unit and integration tests covering auth workflows, property card rendering, chat components, create listing steps, and map viewport synchronization.
+- **TypeScript Strict Mode**: Full compile-time type-safety with zero `any` leaks across domain DTOs.
+- **ESLint 9 Rules**: Zero-warning enforcement across React hooks and modern ECMAScript standards.
 
-![Property details](src/assets/images/property_details.jpg)
+To run tests locally:
 
-_A full listing view: photos, rules, amenities, pricing, and availability._
+```bash
+# Run full Vitest test suite
+npm test
 
-### User profile
+# Run tests in watch mode
+npm run test:watch
 
-![User profile](src/assets/images/profile.jpg)
-
-_Account area for personal details and profile management._
-
-### Profile (dark mode)
-
-![Profile (dark mode)](src/assets/images/profile_dark_mode.jpg)
-
-_Dark theme example for comfortable low-light usage._
-
-### Create a listing
-
-![Create a listing](src/assets/images/create_property.jpg)
-
-_Listing creation flow: fill in the key details and prepare it for publishing._
-
-## Frontend Behavior
-
-- **Guests**
-  - Can use the home page, search pages, map, property details, public profiles, and static info pages (about, contacts, support).
-  - Are redirected to the login page when trying to access protected actions (creating listings, booking, accessing profile).
-- **Authenticated users**
-  - Get access to profile, listings, bookings, wallet, promotions, and chat.
-  - See navigation and UI adapt to the authentication state via `AuthContext`.
-- Sensitive pages (profile, settings, wallet, bookings, promotions) are excluded from search indexing, while public content is SEO-friendly (meta tags, canonical URLs configured in `AppRouter`).
+# Run linter and security checks
+npm run lint
+npm run security:check
+```
 
 ---
 
 ## Repository Structure
 
-Branching model:
-
-- **main** – stable branch prepared for deployments and production releases.
-- **dev** – active development branch.
-
-Key directories:
-
-- `src/pages` – top-level pages (Home, Search, SearchMap, Profile, PropertyDetails, Login, Register, Wallet, etc.).
-- `src/components` – reusable UI components (Navbar, Footer, profile sections, search widgets, property cards).
-- `src/hooks` – business logic encapsulated in React hooks (search, profile, property details, chat, API wrappers).
-- `src/services` – API clients and adapters (user, property, booking, payment, wallet, promotions).
-- `src/config` – shared configuration (API endpoints, routes, React Query client, env).
-- `src/contexts` – global contexts (authentication, theme).
-- `src/types` – DTOs and domain types aligned with the backend.
+```
+rentify-frontend/
+├── public/                       # Static public assets (icons, manifest)
+├── src/
+│   ├── api/                      # Centralized React Query keys (queryKeys.ts)
+│   ├── assets/                   # Static images, SVG icons, and city photos
+│   │   └── images/               # Screenshots and promotional imagery
+│   ├── components/               # Reusable UI component modules
+│   │   ├── auth/                 # Login, register, Google OAuth forms & modals
+│   │   ├── chat/                 # Host-tenant messaging pane & thread list
+│   │   ├── footer/               # Footer navigation & language selector
+│   │   ├── home/                 # Hero section, city grid, FAQ accordion
+│   │   ├── map/                  # Leaflet map, Ukraine mask, marker clusters
+│   │   ├── navbar/               # Header navbar, search bar, user dropdown
+│   │   ├── profile/              # Profile tabs (listings, bookings, wallet, promotions)
+│   │   ├── property-card/        # Property card component with photo carousel
+│   │   ├── property-create/      # 6-step listing creation wizard components
+│   │   ├── property-details/     # Full listing view, gallery, amenities, review list
+│   │   └── search/               # Search filter drawer, sort toolbar, results grid
+│   ├── config/                   # API endpoints, route definitions, environment config
+│   ├── constants/                # Static amenity definitions, property types, city list
+│   ├── contexts/                 # Global React contexts (AuthContext, ThemeContext)
+│   ├── hooks/                    # Custom React hooks (React Query wrappers, debouncers)
+│   ├── layouts/                  # Layout wrappers (MainLayout, AuthLayout)
+│   ├── pages/                    # Route page components (Home, Search, Details, Profile...)
+│   ├── routes/                   # AppRouter with route guards, Suspense, SEO metadata
+│   ├── services/                 # Axios API clients (auth, property, booking, wallet, chat)
+│   ├── test/                     # Vitest test setup and mock handlers
+│   ├── types/                    # TypeScript interfaces, DTOs, and domain models
+│   ├── utils/                    # Data formatters, cookies, validation, geocoding helpers
+│   ├── App.tsx                   # Main root component with Toast & Router providers
+│   ├── index.css                 # Tailwind CSS v4 setup and theme variables
+│   └── main.tsx                  # Application entry point with QueryClientProvider
+├── Dockerfile                    # Multi-stage production container build (Node 22 -> Nginx)
+├── nginx.conf                    # Nginx reverse proxy configuration for SPA & API
+├── vite.config.ts                # Vite bundler configuration & dev server proxy
+├── vitest.config.ts              # Vitest runner and environment configuration
+├── tailwind.config.js            # Tailwind CSS configuration
+├── tsconfig.json                 # Strict TypeScript compiler options
+└── package.json                  # Dependencies, build scripts, and test commands
+```
 
 ---
 
-## Getting Started
+## Running Locally
 
 ### Prerequisites
+- **Node.js**: `v20.x` or `v22.x` recommended
+- **npm**: `v10.x` or higher
+- **Backend API**: Running `rentify-backend` (Spring Boot) on `http://localhost:8080`
 
-- Node.js (LTS recommended, e.g. 18+)
-- Running backend `rentify-backend` (default: `http://localhost:8080`)
-
-### Installation
-
-1. Clone the repository:
-
+### Step 1: Clone Repository
 ```bash
 git clone https://github.com/polchduikt/rentify-frontend.git
 cd rentify-frontend
 ```
 
-2. Install dependencies:
-
+### Step 2: Install Dependencies
 ```bash
 npm install
 ```
 
-3. Configure environment variables:
-
-Create `.env` (or `.env.local`) in the project root:
+### Step 3: Configure Environment Variables
+Create a `.env` (or `.env.local`) file in the project root:
 
 ```env
+# API Base URL & Dev Proxy Target
 VITE_API_BASE_URL=/api/v1
 VITE_DEV_API_PROXY_TARGET=http://localhost:8080
 
-# Auth strategy: 'cookie' (HTTP-only cookie) or 'bearer' (Authorization header)
+# Authentication Strategy: 'cookie' (HTTP-only) or 'bearer' (JWT Header)
 VITE_AUTH_STRATEGY=cookie
 
+# CSRF Cookie and Header Configuration
 VITE_CSRF_COOKIE_NAME=csrf_token
 VITE_CSRF_HEADER_NAME=X-CSRF-Token
 
-# Optional: Google OAuth client configuration
+# Optional: Google OAuth 2.0 Client ID
 VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
+
+# Optional: Canonical Site URL for SEO Metadata
+VITE_SITE_URL=http://localhost:5173
 ```
 
-4. Start the development server:
-
+### Step 4: Start Development Server
 ```bash
 npm run dev
 ```
 
-By default, the app runs on `http://localhost:5173` and proxies API requests to the backend target you configured.
+The application will be available at **[http://localhost:5173](http://localhost:5173)**.
 
 ---
 
 ## Run with Docker
 
-This repository includes a production-ready `Dockerfile` (multi-stage build with Nginx).
+This repository includes a production-ready multi-stage `Dockerfile` that builds the React application and serves it via Nginx on port 80.
 
-Important: in `nginx.conf`, API requests are proxied to `http://backend:8080`.
-So the backend container must be reachable as `backend` on the same Docker network.
-
-### 1. Create a shared network
-
+### 1. Create Docker Network
 ```bash
 docker network create rentify-net
 ```
 
-### 2. Run backend container on that network
-
-Use your backend image/container, but keep the container name as `backend`:
-
+### 2. Run Backend Container
 ```bash
 docker run -d --name backend --network rentify-net -p 8080:8080 rentify-backend
 ```
 
-### 3. Build frontend image
-
+### 3. Build Frontend Image
 ```bash
 docker build -t rentify-frontend \
   --build-arg VITE_API_BASE_URL=/api/v1 \
@@ -242,59 +267,40 @@ docker build -t rentify-frontend \
   .
 ```
 
-### 4. Run frontend container
-
+### 4. Run Frontend Container
 ```bash
 docker run -d --name rentify-frontend --network rentify-net -p 5173:80 rentify-frontend
 ```
 
-Open the app at:
-
-- `http://localhost:5173`
-
-If your backend is not running in Docker, update `nginx.conf` (`proxy_pass`) accordingly and rebuild the image.
+Access the containerized application at **[http://localhost:5173](http://localhost:5173)**.
 
 ---
 
-## API Highlights (from the Frontend Perspective)
+## Available Local Endpoints
 
-The frontend relies on the REST API provided by `rentify-backend` (Spring Boot). Common endpoints:
-
-- **Auth**
-  - `POST /api/v1/auth/login`
-  - `POST /api/v1/auth/register`
-  - `POST /api/v1/auth/google`
-  - `POST /api/v1/auth/logout`
-- **Users**
-  - `GET /api/v1/users/profile`
-  - `PUT /api/v1/users/profile`
-  - `PATCH /api/v1/users/profile/password`
-  - `POST /api/v1/users/profile/avatar`
-  - `DELETE /api/v1/users/profile/avatar`
-  - `GET /api/v1/users/{id}/public`
-- **Properties**
-  - `GET /api/v1/properties/search`
-  - `GET /api/v1/properties/search/map-pins`
-  - `GET /api/v1/properties/{id}`
-  - `POST /api/v1/properties`
-  - `PUT /api/v1/properties/{id}`
-- **Bookings, Wallet, Payments, Promotions**
-  - Dedicated routes under `/api/v1/bookings/**`, `/wallet/**`, `/payments/**`, `/promotions/**` used throughout the UI.
-
-For full API details, see the backend repository and its OpenAPI/Swagger documentation.
+| Service | Address | Description |
+| :--- | :--- | :--- |
+| **Frontend Web App** | `http://localhost:5173` | React 19 Single Page Application |
+| **Backend REST API** | `http://localhost:8080/api/v1` | Spring Boot REST API Service |
+| **Swagger / OpenAPI** | `http://localhost:8080/swagger-ui.html` | Backend Interactive API Documentation |
 
 ---
 
-## Project Status
+## API Integration & Documentation
 
-The project is under active development. Current priorities include:
+The frontend communicates with the `rentify-backend` REST API (Spring Boot). Full endpoint specifications, payload schemas, authentication workflows, CSRF protection, and error handling lifecycle events are documented in:
 
-- further performance optimizations for search and map views,
-- improved UX for profile, chat, and wallet flows,
-- finer-grained promotion and subscription tools for property owners.
+**[API Integration Guide (docs/API_INTEGRATION.md)](docs/API_INTEGRATION.md)**
+
+---
+
+## Status
+
+Rentify Frontend is actively maintained, continuously tested, and updated with modern React standards and performance optimizations.
 
 ---
 
 ## License
 
-The project is currently in the development stage
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
