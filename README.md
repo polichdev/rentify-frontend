@@ -21,20 +21,18 @@
 
 ---
 
-## 📚 Architecture & Engineering Documentation
+## Engineering Documentation
 
-Rentify follows senior engineering standards with formal system documentation, threat modeling, and Architecture Decision Records (ADRs):
+The project includes production-grade engineering specifications, threat models, and architectural decision records:
 
-| Document | Description |
-| :--- | :--- |
-| **[Architecture & Data Flow](docs/ARCHITECTURE.md)** | High-level system architecture, Mermaid topology, runtime data flows & layer separation |
-| **[Codebase Structure](docs/STRUCTURE.md)** | Directory tree taxonomy, module responsibilities, and dependency rules |
-| **[State Management Strategy](docs/STATE_MANAGEMENT.md)** | Server state vs client state, TanStack Query cache TTLs, and race condition prevention |
-| **[Failures & Recovery](docs/FAILURES_AND_RECOVERY.md)** | Error boundaries, 401 session expiry recovery, and offline network fallbacks |
-| **[Frontend Threat Model](docs/THREAT_MODEL.md)** | OWASP client-side threat analysis, XSS/CSRF mitigations, and HttpOnly cookie security |
-| **[Maps & Geolocation](docs/MAPS_AND_GEO.md)** | Leaflet 1.9 engine, Ukraine GeoJSON inverted boundary mask, and pin clustering |
-| **[API Integration Guide](docs/API_INTEGRATION.md)** | REST endpoint catalog, request/response DTO schemas, and event contracts |
-| **[Architecture Decision Records (ADR)](docs/adr/README.md)** | Formal records of technical choices (ADR-001 through ADR-005) |
+- **[Architecture & Data Flow](docs/ARCHITECTURE.md)**: High-level system architecture, Mermaid topology, runtime data flows, and layer separation.
+- **[Codebase Structure](docs/STRUCTURE.md)**: Directory tree taxonomy, module responsibilities, and dependency rules.
+- **[State Management Strategy](docs/STATE_MANAGEMENT.md)**: Server state vs client state, TanStack Query cache TTLs, and race condition prevention.
+- **[Failures & Recovery](docs/FAILURES_AND_RECOVERY.md)**: Error boundaries, 401 session expiry recovery, and offline network fallbacks.
+- **[Frontend Threat Model](docs/THREAT_MODEL.md)**: OWASP client-side threat analysis, XSS/CSRF mitigations, and HttpOnly cookie security.
+- **[Maps & Geolocation](docs/MAPS_AND_GEO.md)**: Leaflet 1.9 engine, Ukraine GeoJSON inverted boundary mask, and pin clustering.
+- **[API Integration Guide](docs/API_INTEGRATION.md)**: REST endpoint catalog, request/response DTO schemas, and event contracts.
+- **[Architecture Decision Records (ADRs)](docs/adr/)**: Formal records of key architectural decisions (ADR-001 through ADR-005).
 
 ---
 
