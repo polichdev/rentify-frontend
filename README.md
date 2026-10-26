@@ -21,6 +21,23 @@
 
 ---
 
+## 📚 Architecture & Engineering Documentation
+
+Rentify follows senior engineering standards with formal system documentation, threat modeling, and Architecture Decision Records (ADRs):
+
+| Document | Description |
+| :--- | :--- |
+| **[Architecture & Data Flow](docs/ARCHITECTURE.md)** | High-level system architecture, Mermaid topology, runtime data flows & layer separation |
+| **[Codebase Structure](docs/STRUCTURE.md)** | Directory tree taxonomy, module responsibilities, and dependency rules |
+| **[State Management Strategy](docs/STATE_MANAGEMENT.md)** | Server state vs client state, TanStack Query cache TTLs, and race condition prevention |
+| **[Failures & Recovery](docs/FAILURES_AND_RECOVERY.md)** | Error boundaries, 401 session expiry recovery, and offline network fallbacks |
+| **[Frontend Threat Model](docs/THREAT_MODEL.md)** | OWASP client-side threat analysis, XSS/CSRF mitigations, and HttpOnly cookie security |
+| **[Maps & Geolocation](docs/MAPS_AND_GEO.md)** | Leaflet 1.9 engine, Ukraine GeoJSON inverted boundary mask, and pin clustering |
+| **[API Integration Guide](docs/API_INTEGRATION.md)** | REST endpoint catalog, request/response DTO schemas, and event contracts |
+| **[Architecture Decision Records (ADR)](docs/adr/README.md)** | Formal records of technical choices (ADR-001 through ADR-005) |
+
+---
+
 ## Overview
 
 **Rentify** is a modern, high-performance real estate rental platform in Ukraine designed for discovering, booking, listing, and managing residential and commercial properties. It serves both guests seeking temporary housing or apartments and property owners looking to monetize listings with integrated booking management, real-time communication, promotional boost packages, and digital wallet transactions.
